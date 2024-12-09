@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Indicador de Mayer Multiple</title>
+    <style>
+html {
+  font-size: 10px; /* px significa "pixels": o tamanho da fonte base é agora de 10 pixels */
+  font-family: "Open Sans", sans-serif; /* este deve ser o nome da fonte que você obteve no Google Fonts */
+}
+        /* Inicialmente oculta todos os objetos e evita que eles ocupem espaço */
+        object {
+            display: none;       /* Esconde os objetos inicialmente */
+            width: 100%;         /* Largura total */
+            height: 65px;       /* Altura definida */
+            margin-bottom: -28px; /* Espaçamento entre os objetos */
+        }
+    </style>
+</head>
+<body>
+
+<h1>Indicador de Mayer Multiple</h1>
+
+<object id="btc" data="btc.html"></object>
+<object id="dot" data="dot.html"></object>
+<object id="eth" data="eth.html"></object>
+<object id="ilv" data="ilv.html"></object>
+<object id="imx" data="imx.html"></object>
+<object id="inj" data="inj.html"></object>
+<object id="pendle" data="pendle.html"></object>
+<object id="usdc" data="usdc.html"></object>
+<object id="usdt" data="usdt.html"></object>
+<object id="xrp" data="xrp.html"></object>
+
+<script>
+    window.onload = function() {
+        // Atraso para mostrar os objetos
+        setTimeout(function() {
+            document.getElementById('btc').style.display = 'block';  // Mostra o primeiro objeto
+        }, 0); // Mostra o primeiro imediatamente
+
+        setTimeout(function() {
+            document.getElementById('dot').style.display = 'block';  // Mostra o segundo objeto
+        }, 10000); // Mostra após 10 segundos
+
+        setTimeout(function() {
+            document.getElementById('eth').style.display = 'block';  // Mostra o terceiro objeto
+        }, 20000); // Mostra após 20 segundos
+
+        setTimeout(function() {
+            document.getElementById('ilv').style.display = 'block';  // Mostra o quarto objeto
+        }, 30000); // Mostra após 30 segundos
+
+        setTimeout(function() {
+            document.getElementById('imx').style.display = 'block';  // Mostra o quarto objeto
+        }, 40000); // Mostra após 40 segundos
+
+        setTimeout(function() {
+            document.getElementById('inj').style.display = 'block';  // Mostra o quarto objeto
+        }, 50000); // Mostra após 50 segundos
+
+        setTimeout(function() {
+            document.getElementById('pendle').style.display = 'block';  // Mostra o quarto objeto
+        }, 60000); // Mostra após 60 segundos
+
+        setTimeout(function() {
+            document.getElementById('usdc').style.display = 'block';  // Mostra o quarto objeto
+        }, 70000); // Mostra após 70 segundos
+    };
+
+        setTimeout(function() {
+            document.getElementById('usdt').style.display = 'block';  // Mostra o quarto objeto
+        }, 80000); // Mostra após 80 segundos
+
+        setTimeout(function() {
+            document.getElementById('xrp').style.display = 'block';  // Mostra o quarto objeto
+        }, 90000); // Mostra após 90 segundos
+</script>
+
+</body>
+</html>
+
