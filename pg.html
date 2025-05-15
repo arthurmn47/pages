@@ -2,7 +2,7 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <title>Múltiplo de Mayer do XRP</title>
+    <title>Salvando</title>
     <style>
       table {
         width: 100%;
@@ -49,6 +49,7 @@
         <tr>
           <th>Data</th>
           <th>Hora</th>
+          <th>Preço</th>
           <th>Múltiplo de Mayer</th>
         </tr>
       </thead>
@@ -135,6 +136,7 @@
           const registro = {
             data: data,
             hora: hora,
+            preco: todaysQuotation,
             mayer: Number(mayerValue)
           };
 
@@ -153,6 +155,7 @@
             row.innerHTML = `
               <td>${entry.data}</td>
               <td>${entry.hora}</td>
+              <td>${entry.preco}</td>
               <td>${entry.mayer}</td>
             `;
             tbody.appendChild(row);
