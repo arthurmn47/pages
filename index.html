@@ -1,50 +1,53 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>Indicador de Mayer Multiple</title>
-    <style>
-html {
-  font-size: 10px; /* px significa "pixels": o tamanho da fonte base é agora de 10 pixels */
-  font-family: "Open Sans", sans-serif; /* este deve ser o nome da fonte que você obteve no Google Fonts */
-}
-        /* Inicialmente oculta todos os objetos e evita que eles ocupem espaço */
-        object {
-            display: none;       /* Esconde os objetos inicialmente */
-            width: 100%;         /* Largura total */
-            height: 65px;       /* Altura definida */
-            margin-bottom: -28px; /* Espaçamento entre os objetos */
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Indicador de Mayer Multiple</title>
+  <style>
+    html {
+      font-size: 10px;
+      font-family: "Open Sans", sans-serif;
+    }
+
+    body {
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 15px;
+    }
+
+    a {
+      font-size: 1.6rem;
+      text-decoration: none;
+      color: #007bff;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
 
 <h1>Indicador de Mayer Multiple</h1>
 
-<object id="btc" data="btc.html"></object>
-<object id="eth" data="eth.html"></object>
-<object id="sol" data="sol.html"></object>
-<object id="sol" data="xrp.html"></object>
-
-<script>
-    window.onload = function() {
-        // Atraso para mostrar os objetos
-        setTimeout(function() {
-            document.getElementById('btc').style.display = 'block';  // Mostra o primeiro objeto
-        }, 0); // Mostra o primeiro imediatamente
-
-        setTimeout(function() {
-            document.getElementById('dot').style.display = 'block';  // Mostra o segundo objeto
-        }, 10000); // Mostra após 10 segundos
-
-        setTimeout(function() {
-            document.getElementById('eth').style.display = 'block';  // Mostra o terceiro objeto
-        }, 20000); // Mostra após 20 segundos
-
-        setTimeout(function() {
-            document.getElementById('sol').style.display = 'block';  // Mostra o quarto objeto
-        }, 30000); // Mostra após 30 segundos
-</script>
+<ul>
+  <li><a href="btc.html" target="_blank">Ver indicador para BTC</a></li>
+  <li><a href="eth.html" target="_blank">Ver indicador para ETH</a></li>
+  <li><a href="sol.html" target="_blank">Ver indicador para SOL</a></li>
+  <li><a href="xrp.html" target="_blank">Ver indicador para XRP</a></li>
+</ul>
 
 </body>
 </html>
