@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Múltiplo de Mayer do XRP</title>
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      table, th, td {
+        border: 1px solid black;
+      }
+
+      th, td {
+        padding: 8px;
+        text-align: center;
+      }
+
+      .green {
+        background-color: #90EE90;
+      }
+
+      .yellow {
+        background-color: #FFFF00;
+      }
+
+      .red {
+        background-color: #FF6347;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Múltiplo de Mayer (XRP)</h2>
+    <table>
+      <tbody>
+        <tr>
+          <td>Múltiplo de Mayer (XRP)</td>
+          <td id="MayerMultiple">Carregando...</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Histórico Salvo</h2>
+    <table id="historyTable">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Hora</th>
+          <th>Múltiplo de Mayer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Histórico será inserido aqui -->
+      </tbody>
+    </table>
+
+    <script>
+      window.onload = () => {
+        const cointTicker = "XRP";
+        const baseApi = `https://www.mercadobitcoin.net/api/${cointTicker}`;
+        const mayerMultipleBaseDays = 200;
+        let sumTwoHundredDays = 0;
+
+        let todaysQuotation = 0;
+        let averageTwoHundred = 0;
+        let mayerMultiple = 0;
+
+        async function getTodaysQuotation() {
+          try {
+            const query = await fetch(`${baseApi}/ticker`);
+            const result = await query.json();
+            todaysQuotation = parseFloat(result.ticker.last);
+          } catch (err) {
+            console.error('Erro ao obter cotação do dia:', err);
+          }
+        }
+
+        async function getClosingQuotation(year, month, day) {
+          try {
+            const res = await fetch(`${baseApi}/day-summary/${year}/${month}/${day}`);
+            const data = await res.json();
+            sumTwoHundredDays += parseFloat(data.avg_price || 0);
+          } catch (err) {
+            console.error(`Erro em ${day}/${month}/${year}:`, err);
+          }
+        }
+
+        async function calculateTwoHundred() {
+          let date = new Date();
+          const promises = [];
+
+          for (let i = 0; i < 200; i++) {
+            date.setDate(date.getDate() - 1);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            promises.push(getClosingQuotation(year, month, day));
+          }
+
+          await Promise.all(promises);
+        }
+
+        function renderMayerMultiple() {
+          averageTwoHundred = sumTwoHundredDays / mayerMultipleBaseDays;
+          mayerMultiple = (todaysQuotation / averageTwoHundred).toFixed(2);
+
+          const cell = document.getElementById("MayerMultiple");
+          cell.textContent = mayerMultiple;
+
+          const row = cell.parentElement;
+          row.classList.remove("green", "yellow", "red");
+          if (mayerMultiple <= 1) {
+            row.classList.add("green");
+          } else if (mayerMultiple <= 2.4) {
+            row.classList.add("yellow");
+          } else {
+            row.classList.add("red");
+          }
+
+          saveToHistory(mayerMultiple);
+          renderHistoryTable();
+        }
+
+        function saveToHistory(mayerValue) {
+          const now = new Date();
+          const data = String(now.getDate()).padStart(2, '0') + '/' +
+                       String(now.getMonth() + 1).padStart(2, '0') + '/' +
+                       now.getFullYear();
+          const hora = String(now.getHours()).padStart(2, '0') + ':' +
+                       String(now.getMinutes()).padStart(2, '0');
+
+          const registro = {
+            data: data,
+            hora: hora,
+            mayer: Number(mayerValue)
+          };
+
+          const historico = JSON.parse(localStorage.getItem('mayerHistory')) || [];
+          historico.push(registro);
+          localStorage.setItem('mayerHistory', JSON.stringify(historico));
+        }
+
+        function renderHistoryTable() {
+          const historico = JSON.parse(localStorage.getItem('mayerHistory')) || [];
+          const tbody = document.getElementById('historyTable').querySelector('tbody');
+          tbody.innerHTML = '';
+
+          historico.reverse().forEach(entry => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${entry.data}</td>
+              <td>${entry.hora}</td>
+              <td>${entry.mayer}</td>
+            `;
+            tbody.appendChild(row);
+          });
+        }
+
+        async function main() {
+          await getTodaysQuotation();
+          await calculateTwoHundred();
+          renderMayerMultiple();
+        }
+
+        main();
+      };
+    </script>
+  </body>
+</html>
