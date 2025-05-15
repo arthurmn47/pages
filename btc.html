@@ -48,6 +48,7 @@
       <thead>
         <tr>
           <th>Data</th>
+          <th>Moeda</th>
           <th>Hora</th>
           <th>Preço</th>
           <th>Múltiplo de Mayer</th>
@@ -135,18 +136,19 @@
 
           const registro = {
             data: data,
+            moeda: cointTicker,
             hora: hora,
             preco: todaysQuotation,
             mayer: Number(mayerValue)
           };
 
-          const historico = JSON.parse(localStorage.getItem('mayerHistory')) || [];
+          const historico = JSON.parse(localStorage.getItem('mayerHistory2')) || [];
           historico.push(registro);
-          localStorage.setItem('mayerHistory', JSON.stringify(historico));
+          localStorage.setItem('mayerHistory2', JSON.stringify(historico));
         }
 
         function renderHistoryTable() {
-          const historico = JSON.parse(localStorage.getItem('mayerHistory')) || [];
+          const historico = JSON.parse(localStorage.getItem('mayerHistory2')) || [];
           const tbody = document.getElementById('historyTable').querySelector('tbody');
           tbody.innerHTML = '';
 
@@ -154,6 +156,7 @@
             const row = document.createElement('tr');
             row.innerHTML = `
               <td>${entry.data}</td>
+              <td>${entry.moeda}</td>
               <td>${entry.hora}</td>
               <td>${entry.preco}</td>
               <td>${entry.mayer}</td>
