@@ -37,10 +37,14 @@
       text-decoration: underline;
     }
 
-    #xrp-price {
+    .preco {
       font-size: 1.6rem;
-      margin-top: 20px;
+      margin-top: 10px;
       color: #333;
+    }
+
+    .precos-container {
+      margin-top: 30px;
     }
   </style>
 </head>
@@ -55,27 +59,42 @@
   <li><a href="xrp.html" target="_blank">Ver indicador para XRP</a></li>
 </ul>
 
-<div id="xrp-price">Carregando preço do XRP...</div>
+<div class="precos-container">
+  <div class="preco" id="btc-price">Carregando preço do BTC...</div>
+  <div class="preco" id="eth-price">Carregando preço do ETH...</div>
+  <div class="preco" id="sol-price">Carregando preço do SOL...</div>
+  <div class="preco" id="xrp-price">Carregando preço do XRP...</div>
+</div>
 
 <script>
-  async function atualizarPrecoXRP() {
+  async function atualizarPrecos() {
     try {
-      const resposta = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ripple&vs_currencies=usd,brl');
+      const resposta = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,ripple&vs_currencies=usd,brl');
       const dados = await resposta.json();
-      const precoUSD = dados.ripple.usd.toFixed(4);
-      const precoBRL = dados.ripple.brl.toFixed(4);
+
+      document.getElementById('btc-price').innerText =
+        `Preço do BTC: ${dados.bitcoin.brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`;
+
+      document.getElementById('eth-price').innerText =
+        `Preço do ETH: ${dados.ethereum.brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`;
+
+      document.getElementById('sol-price').innerText =
+        `Preço do SOL: ${dados.solana.brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`;
+
       document.getElementById('xrp-price').innerText =
-        `Preço do XRP: US$ ${precoUSD} / R$ ${precoBRL}`;
+        `Preço do XRP: ${dados.ripple.brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
     } catch (erro) {
-      document.getElementById('xrp-price').innerText =
-        'Erro ao carregar o preço do XRP.';
-      console.error('Erro ao buscar preço do XRP:', erro);
+      document.getElementById('btc-price').innerText = 'Erro ao carregar preço do BTC.';
+      document.getElementById('eth-price').innerText = 'Erro ao carregar preço do ETH.';
+      document.getElementById('sol-price').innerText = 'Erro ao carregar preço do SOL.';
+      document.getElementById('xrp-price').innerText = 'Erro ao carregar preço do XRP.';
+      console.error('Erro ao buscar preços:', erro);
     }
   }
 
-  // Atualiza a cada 30 segundos
-  atualizarPrecoXRP();
-  setInterval(atualizarPrecoXRP, 30000);
+  atualizarPrecos();
+  setInterval(atualizarPrecos, 30000); // Atualiza a cada 30 segundos
 </script>
 
 </body>
