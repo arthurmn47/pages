@@ -36,6 +36,12 @@
     a:hover {
       text-decoration: underline;
     }
+
+    #xrp-price {
+      font-size: 1.6rem;
+      margin-top: 20px;
+      color: #333;
+    }
   </style>
 </head>
 <body>
@@ -48,6 +54,29 @@
   <li><a href="sol.html" target="_blank">Ver indicador para SOL</a></li>
   <li><a href="xrp.html" target="_blank">Ver indicador para XRP</a></li>
 </ul>
+
+<div id="xrp-price">Carregando preço do XRP...</div>
+
+<script>
+  async function atualizarPrecoXRP() {
+    try {
+      const resposta = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ripple&vs_currencies=usd,brl');
+      const dados = await resposta.json();
+      const precoUSD = dados.ripple.usd.toFixed(4);
+      const precoBRL = dados.ripple.brl.toFixed(4);
+      document.getElementById('xrp-price').innerText =
+        `Preço do XRP: US$ ${precoUSD} / R$ ${precoBRL}`;
+    } catch (erro) {
+      document.getElementById('xrp-price').innerText =
+        'Erro ao carregar o preço do XRP.';
+      console.error('Erro ao buscar preço do XRP:', erro);
+    }
+  }
+
+  // Atualiza a cada 30 segundos
+  atualizarPrecoXRP();
+  setInterval(atualizarPrecoXRP, 30000);
+</script>
 
 </body>
 </html>
